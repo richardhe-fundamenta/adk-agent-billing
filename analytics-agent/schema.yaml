@@ -1,0 +1,45 @@
+- name: tripduration
+  type: INTEGER
+  description: Trip duration in seconds
+- name: starttime
+  type: DATETIME
+  description: Start time of the trip in NYC time
+- name: stoptime
+  type: DATETIME
+  description: End time of the trip in NYC time
+- name: start_station_id
+  type: INTEGER
+  description: ID of the starting station
+- name: start_station_name
+  type: STRING
+  description: Name of the starting station
+- name: start_station_latitude
+  type: FLOAT
+  description: Latitude of the starting station
+- name: start_station_longitude
+  type: FLOAT
+  description: Longitude of the starting station
+- name: end_station_id
+  type: INTEGER
+  description: ID of the ending station
+- name: end_station_name
+  type: STRING
+  description: Name of the ending station
+- name: end_station_latitude
+  type: FLOAT
+  description: Latitude of the ending station
+- name: end_station_longitude
+  type: FLOAT
+  description: Longitude of the ending station
+- name: bikeid
+  type: INTEGER
+  description: ID of the bike
+- name: usertype
+  type: STRING
+  description: 'Type of user (e.g., "Customer" for 24-hour/3-day pass users, "Subscriber" for Annual Members)'
+- name: birth_year
+  type: INTEGER
+  description: Year of birth of the user
+- name: gender
+  type: INTEGER
+  description: Gender of the user (0=unknown, 1=male, 2=female)
