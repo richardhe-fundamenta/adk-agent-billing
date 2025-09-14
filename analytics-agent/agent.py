@@ -1,10 +1,11 @@
 import datetime
 import yaml
+
 from google.adk.agents import Agent
 from google.cloud import bigquery
 from google import genai
 from google.genai.types import HttpOptions
-
+from .genai_client_decorator import GenAIClientDecorator
 
 def _generate_sql_from_natural_language(question: str, table_info: dict) -> str:
     """Generates a SQL query from a natural language question and a table schema."""
@@ -26,8 +27,7 @@ def _generate_sql_from_natural_language(question: str, table_info: dict) -> str:
 
     print(prompt)
 
-    client = genai.Client(http_options=HttpOptions(api_version="v1"))
-    response = client.models.generate_content(
+    response = genai_client_with_logger.models.generate_content(
         model="gemini-2.5-flash",
         contents=prompt,
     )
@@ -111,7 +111,6 @@ def _explore_table(
         }
 
     try:
-        print(sql_query)
         query_job = client.query(sql_query)
         results = query_job.result()
         return {"status": "success", "report": [_convert_row_to_json_serializable(row) for row in results]}
@@ -131,7 +130,7 @@ def cycle_hire(question: str) -> dict:
 
 
 root_agent = Agent(
-    name="adk_agent",
+    name="adk_analytics_agent",
     model="gemini-2.5-flash",
     description=(
         "Agent to answer questions about Google Trends BigQuery tables."
@@ -143,3 +142,8 @@ root_agent = Agent(
         cycle_hire,
     ],
 )
+
+genai_client_with_logger = GenAIClientDecorator(
+        agent_name=root_agent.name,
+        client=genai.Client(http_options=HttpOptions(api_version="v1"))
+    )
